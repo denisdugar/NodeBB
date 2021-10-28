@@ -1,0 +1,16 @@
+name: Release
+
+on:
+  pull_request:
+    branches: [main]
+env:
+  KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kubectl get nodes
+        uses: actions-hub/kubectl@master
+        with:
+          args: get nodes
