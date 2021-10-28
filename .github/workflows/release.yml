@@ -28,6 +28,11 @@ jobs:
         with:
           args: get nodes
 
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
       - name: docker build
         env:
           CONFIG_NODEBB: ${{ secrets.CONFIG_NODEBB  }}
