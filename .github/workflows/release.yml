@@ -14,6 +14,11 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
+      - name: Cancel Previous Runs               
+        uses: styfle/cancel-workflow-action@0.4.1
+        with:                                    
+          access_token: ${{ github.token }} 
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -31,9 +36,17 @@ jobs:
           CONFIG_NODEBB: ${{ secrets.CONFIG_NODEBB  }}
         run: |
             echo $CONFIG_NODEBB > config.json
-            ls
-            cat config.json
         shell: bash
+
+      - name: Build app
+        run: |
+            ls
+            ./nodebb setup --config config.json
+        shell: bash
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
       - name: Kubectl update image
         uses: kodermax/kubectl-aws-eks@master
@@ -41,4 +54,3 @@ jobs:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
         with:
           args: get nodes
-
