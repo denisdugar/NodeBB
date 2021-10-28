@@ -5,8 +5,6 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-env:
-  KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
 jobs:
   release:
     name: Release
@@ -14,5 +12,7 @@ jobs:
     steps:
       - name: Kubectl get nodes
         uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
           args: get nodes
