@@ -32,5 +32,5 @@ jobs:
         env:
           CONFIG_NODEBB: ${{ secrets.CONFIG_NODEBB  }}
         run: |
-          echo $CONFIG_NODEBB
-          ls
+            ls
+        shell: bash
