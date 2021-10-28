@@ -21,9 +21,9 @@ jobs:
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Kubectl get nodes
-        uses: actions-hub/kubectl@master
+      - name: get nodes
+        uses: kodermax/kubectl-aws-eks@master
         env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
         with:
           args: get nodes
