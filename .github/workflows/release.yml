@@ -48,9 +48,20 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Build docker image
+        run: |
+            docker build -t nodebb-test .
+            docker tag nodebb-test:latest 140625812000.dkr.ecr.eu-west-1.amazonaws.com/nodebb-test:latest
+        shell: bash
+
+      - name: Push docker image to ECR
+        run: |
+            docker push 140625812000.dkr.ecr.eu-west-1.amazonaws.com/nodebb-test:latest
+        shell: bash
+
       - name: Kubectl update image
         uses: kodermax/kubectl-aws-eks@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: get nodes
+          args: rollout restart deployment/my-web-deployment-autoscaling
