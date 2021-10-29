@@ -36,13 +36,11 @@ jobs:
           CONFIG_NODEBB: ${{ secrets.CONFIG_NODEBB  }}
         run: |
             echo $CONFIG_NODEBB > config.json
-        shell: bash
 
       - name: Build app
         run: |
             ls
             ./nodebb setup --config config.json
-        shell: bash
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -52,12 +50,10 @@ jobs:
         run: |
             docker build -t nodebb-test .
             docker tag nodebb-test:latest 140625812000.dkr.ecr.eu-west-1.amazonaws.com/nodebb-test:latest
-        shell: bash
 
       - name: Push docker image to ECR
         run: |
             docker push 140625812000.dkr.ecr.eu-west-1.amazonaws.com/nodebb-test:latest
-        shell: bash
 
       - name: Kubectl update image
         uses: kodermax/kubectl-aws-eks@master
