@@ -1,0 +1,20 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+  labels:
+    app : {{ .Release.Name }}-k8s-deployment
+spec:
+  selector:
+    matchLabels:
+      project: {{ .Release.Name }}-nodebb
+  template:
+    metadata:
+      labels:
+        project: {{ .Release.Name }}-nodebb
+    spec:
+      containers:
+        - name : {{ .Release.Name }}-nodebb-app
+          image: {{ .Values.container.image }}
+          ports:
+            - containerPort: 4567

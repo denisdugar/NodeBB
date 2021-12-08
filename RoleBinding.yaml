@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: eks-user-role-binding
+subjects:
+- kind: User
+  name: denis-test-kubectl
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: eks-user-role
+  apiGroup: rbac.authorization.k8s.io

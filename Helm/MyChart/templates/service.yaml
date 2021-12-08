@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-autoscaling-pod-service
+  labels:
+     env  : prod
+spec:
+  selector:
+    project: {{ .Release.Name }}-nodebb
+  ports:
+    - name      : {{ .Release.Name }}-app-listener
+      protocol  : TCP
+      port      : 80
+      targetPort: 4567
+  type: LoadBalancer
